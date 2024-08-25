@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+h2, h3 {
+    color: #0066cc;
+}
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+.section {
+    margin-bottom: 20px;
+}
+nav{
+    font-size:larger;
+}
+p{
+    text-align: justify;
+}
+footer{
+    background-color: #0066cc;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    color: #ffffff;
+}
+header{
+    text-align: center;
+}
+.pioneers{
+    color: #8e1c1c;
+}
