@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/index.css">
+    <script src="https://kit.fontawesome.com/490315fd94.js" crossorigin="anonymous"></script>
+<title>The Tor Network: Anonymous Browsing and Hidden Services</title>
+</head>
+<body>
+    <header>
+        <h1 style="margin-bottom:0%;">𝕎𝕒𝕟𝕟𝕒𝔹𝕖𝟙𝟛𝟛𝟟</h1>
+        <span style="color: #8a1414; margin: 0%;">Exploring more and more ....</span>
+        <nav style="margin-top: 20px;">
+            <a href="/index.html">Home</a> |
+            <a href="/assets/posts/projects/index.html">Projects</a> |
+            <a href="/assets/posts/blogs/index.html">Blogs</a> |
+            <a href="/assets/posts/pioneers/index.html">Pioneers</a> |
+            <a href="/aboutMe.html">About Me</a> 
+        </nav>
+        <hr class="separator">
+    </header>
+
+
+    <div class="container">
+        
+        <h1 style="text-align: center;" class="blogs">The Tor Network: Anonymous Browsing and Hidden Services</h1>
+
+        <div class="section">
+            <h2>Abstract</h2>
+            <p style="margin: 0%; text-align: justify;">
+                This post explores the Tor network in depth, detailing how users can browse the internet anonymously and how hidden services are hosted and accessed within the Tor ecosystem. It aims to demystify the technical process behind achieving online anonymity using Tor.
+            </p>
+        </div>
+        <hr>
+        <h2>Anonymous Browsing</h2>
+        <p>This part of the blog, discusses how a client connection is anonymized using Tor protocol. We will see a brief history of TOR, circuit establishment in tor network and multi-layer encryption/decryption protocol that provides anonymity to its users.</p>
+        <div class="section">
+            <h3 class="blogs">Introduction</h3>
+            <p>
+                First and foremost I want you to understand that confidentiality is not anonymity.</p>
+                <p>
+                    <i>
+                        <b>Confidentiality</b> = "No one can read what I’m saying except authorized ones." (Encrypting messages with shared secrets between sender and receiver i.e. HTTPS)
+                    </i>
+                </p>
+                <p>
+                    <i>
+                        <b>Anonymity</b> = "No one knows it’s me saying it." (Tor traffic hopping through different relays in tor network) 
+                    </i>
+                </p>
+
+                <p>
+                    Tor stands for <i>“The Onion Routing”</i>, it is a decentralized network designed to provide anonymous communication on the internet. Tor protects users' privacy by routing traffic through a layered network of volunteer-operated servers, making it extremely difficult to trace online activity back to the user.
+                </p>
+
+                <p>
+                    To use Tor, one simply needs a browser that supports the protocol. The Tor Browser, developed by the non-profit Tor Project, is the most trusted tool for this purpose. It can be downloaded from the project's official site and is straightforward to use: launch the browser, connect to the network, and begin browsing.
+                </p>
+                <p>
+                    In regions where Tor is censored, users can still access it by configuring bridges—obfuscated relays not listed publicly, making them harder to detect and block. The Tor Browser has built-in support for such configurations.
+                </p>
+        </div>
+        
+        <div class="section">
+            <h3 class="blogs">A Brief History of Tor</h3>
+            <p>
+                The concept of onion routing was first developed in the 1990s by researchers at the U.S. Naval Research Laboratory, including Paul Syverson, Michael G. Reed, and David Goldschlag [<a href="https://ieeexplore.ieee.org/document/668972">ref</a>]. Their goal was to secure online communications for U.S. intelligence by hiding metadata. In 2002, Roger Dingledine and Nick Mathewson, with continued input from Syverson, released the first public implementation of this concept [<a href="https://css.csail.mit.edu/6.858/2022/readings/tor-design.pdf">ref</a>]. The project was soon named Tor.
+            </p>
+
+            <p>
+                By 2004, Tor was released under a free license, opening the door for global collaboration. In 2006, the non-profit Tor Project, Inc. was established to further its development. Since then, Tor has become a vital tool for journalists, whistleblowers, activists, and privacy-conscious individuals. The introduction of the Tor Browser and onion services made the technology more accessible to the general public.
+            </p>
+        </div>
+
+        <div class="section">
+
+            <h3 class="blogs">How Tor Ensures Anonymity</h3>
+            <p>
+                To understand Tor's anonymizing capabilities, it's crucial to recognize the roles of its components. A typical Tor setup involves  following:
+                <ul>
+                    <li>
+                        <b>User:</b> The person who wants to browse anonymously.
+                    </li>
+                    <li>
+                        <b>Client:</b> The Tor software (typically the Tor Browser) running on the user’s device.
+                    </li>
+                    <li>
+                        <b>Server:</b> The destination website or service the user wants to access.
+                    </li>
+                    <li>
+                        <b>Tor Node (Relay):</b> A volunteer-operated server in the Tor network that forwards traffic.
+                    </li>
+                    <li>
+                        <b>Tor Directory:</b> provides a list of active  tor nodes (relays) in the Tor network, it is maintained by trusted directory authorities.
+                    </li>
+                    <li>
+                        <b>Circuit:</b> A temporary, encrypted path consisting of three random relays (Guard, Middle, and Exit) in the tor network through which traffic is sent.
+                        <ul>
+                            <li>
+                                <b>Guard Node:</b> the first relay and knows the user's IP address but not the final destination.
+                            </li>
+                            <li>
+                                <b>Middle Node:</b> provides an additional layer of separation.
+                            </li>
+                            <li>
+                                <b>Exit Node:</b> connects to the destination server but doesn't know the origin of the request.
+                            </li>
+                        </ul>
+                        <p>
+                            This segmentation ensures that no single node can determine both the source and destination. Each connection between nodes (client ↔ guard, guard ↔ middle, middle ↔ exit) uses its own local Circuit ID. Each node keeps a local mapping table to know which incoming ID maps to which outgoing ID and to find the corresponding decryption keys, and next hop in the outgoing circuit:
+                        </p>
+                        <div class="code" style="margin-left: 2.5em;">
+                            <code>
+                                Incoming Circuit ID → Decryption Key, Next Hop, Outgoing Circuit ID
+                            </code>
+                        </div>
+                    </li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="section">
+            <h3 class="blogs">Circuit establishment</h3>
+            <p>
+                When the Tor Browser starts, it retrieves the list of available nodes from the directory servers. Most of the censor authorities block requests to these directory to censor the tor. These directories are trusted servers that maintain an updated list of all public relays. The browser then selects three random nodes (Guard, Middle and Exit) to build a circuit. 
+            </p>
+            <figure style="text-align: center;">
+                <img src="/assets/images/tor.png" alt="How TOR works">
+                <figcaption><b>Image credit: <a href="https://tb-manual.torproject.org/static/images/how-tor-works.png" target="_blank">The TOR Project</a></b></figcaption>
+              </figure>
+            <p>
+                Once the client selects the three relays, it initiates a secure circuit by negotiating session keys with each node in a telescoping manner as shown in the above figure. 
+            </p>
+            <ol>
+                <li>
+                    The client starts a circuit to the Guard node, creates a Circuit ID CID₁, and performs a key exchange to establish K₁.
+                </li>
+                <li>
+                    The client then extends the circuit to the Middle relay:
+                    <ul>
+                        <li>Sends a request to the Guard, encrypted with K₁, asking to extend to Middle.</li>
+                        <li>Guard node picks a local CID for the Middle connection, and connects.</li>
+                        <li>Client negotiates a key K₂ with Middle, through Guard.</li>
+                    </ul>
+                </li>
+                <li>The clients then repeats the same with middle relay to add the Exit node, establishing key K₃.</li>
+            </ol>
+            <p>At the end, the client knows:
+                <ul>
+                    <li>The full path, i.e. Guard Node, Middle Node and Exit Node.</li>
+                    <li>Shared keys: K₁, K₂, K₃</li>
+                    <li>Its own Circuit ID to the Guard (say CID₁)</li>
+                </ul>
+            </p>
+            <p>
+                But it does not know or care about the relays’ internal Circuit IDs (CID₂, CID₃, etc.).
+            </p>
+        </div>
+        
+        <div class="section">
+            <h3 class="blogs">Tor Message Encryption and Decryption</h3>
+            <p>
+                To send messages, the client applies multiple layers of encryption. Let’s say the client wants to send an HTTP request to <i>example.com</i>. Let’s denote the payload as:
+                <div class="code">
+                    <code>
+                        M = "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n"
+                    </code>
+                </div>
+            </p>
+            <h4>Step 1: Onion Encryption by the Client</h4>
+            <p>
+                Client prepares the message by applying layered encryption, starting from the last node (exit) back to the first (guard):
+            </p>
+            <div class="code">
+                <code>
+                    E₃ = Encrypt(K₃, M)<br>
+                    E₂ = Encrypt(K₂, E₃)<br>
+                    E₁ = Encrypt(K₁, E₂)
+                </code>
+            </div>
+                <p>So the client sends the following tor cell to guard node: </p>
+            <div class="code">
+                <code>
+                Tor Cell:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Circuit ID: CID₁<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Payload: E₁ = Enc_K₁(Enc_K₂(Enc_K₃(M)))
+                </code>
+            </div>
+
+                <h4>Step 2: Guard Node Decrypts 1st Layer</h4>
+                <p>Guard Node receives the tor cell, then uses CID₁ to look up the key K₁ and decrypts the received payload:</p>
+                <div class="code">
+                    <code>
+                        Decrypt(K₁, E₁) → E₂
+                    </code>
+                </div>
+                After removing the first layer of encryption, it forwards the following tor cell to middle node:
+                <div class="code">
+                    <code>
+                        Tor Cell:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Circuit ID: CID₂ (new, internal) <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Payload: E₂
+                    </code>
+                </div>
+
+                <h4>Step 3: Middle Node Decrypts 2nd Layer</h4>
+                <p>Middle Node receives the cell, then uses CID₂ to find K₂ and decrypts the received payload:</p>
+                <div class="code">
+                    <code>
+                        Decrypt(K₂, E₂) → E₃
+                    </code>
+                </div>
+                After removing the second layer of encryption, it forwards the following tor cell to exit node:
+                
+                <div class="code">
+                    <code>
+                        Tor Cell:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Circuit ID: CID₃ <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Payload: E₃
+                    </code>
+                </div>
+                <h4>Step 4: Exit Node Decrypts 3rd Layer</h4>
+                <p>Exit Node receives the cell, then uses CID₃ to get K₃ and decrypts the received payload:</p>
+                
+                <div class="code">
+                    <code>
+                        Decrypt(K₃, E₃) → M
+                    </code>
+                </div>
+                After removing the last layer of encryption, exit node able to get the original request to be sent to the server.
+                
+                <div class="code">
+                    <code>
+                        M = "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n"
+                    </code>
+                </div>
+                <p>Finally, the Exit node sends this request to <i>example.com</i> over the public internet. The reply from <i>example.com</i> is then forward back to the client in a similar fashion by applying each layer of encryption one by one. </p>
+                        
+                <p>In this way tor provides anonymity to its users. Here’s the summary of what each node knows:</p>
+                <table>
+                    <thead>
+                      <tr>
+                        <th>Node</th>
+                        <th>Knows Your IP?</th>
+                        <th>Knows Destination?</th>
+                        <th>Knows Message Content?</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Guard</td>
+                        <td>✅ Yes</td>
+                        <td>❌ No</td>
+                        <td>❌ No</td>
+                      </tr>
+                      <tr>
+                        <td>Middle</td>
+                        <td>❌ No</td>
+                        <td>❌ No</td>
+                        <td>❌ No</td>
+                      </tr>
+                      <tr>
+                        <td>Exit</td>
+                        <td>❌ No</td>
+                        <td>✅ Yes</td>
+                        <td>✅ Yes (if not using HTTPS)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p>All Tor traffic over the network is broken into 512-byte cells. This size is strictly enforced, making Tor traffic highly uniform and hard to fingerprint.</p>
+        </div>
+
+        
+        
+        <div class="section">
+            <h3 class="blogs">Tips for Safer Browsing with Tor</h3>
+            <ul>
+                <li>
+                    Don’t resize your browser window — it can be used to fingerprint your device.
+                </li>
+                <li>
+                    Don’t install extra browser plugins or scripts.
+                </li>
+                <li>
+                    Use HTTPS websites whenever possible (Tor Browser has HTTPS-Only Mode).
+                </li>
+                <li>
+                    Avoid logging into personal accounts unless absolutely necessary
+                </li>
+            </ul>
+        </div>
+
+        <hr>
+        <h2>TOR Hidden Services</h2>
+        <p>This part of the blog, discusses about the TOR hidden services and step-by-step process of setting up the hidden service on the TOR network.</p>
+        <div class="section">
+            <h3 class="blogs">What Is a Hidden Service?</h3>
+            <p>
+                A Tor Hidden Service (also known as an Onion Service) is a server that can be accessed only through the Tor network. Unlike traditional websites, a Hidden Service hides its real IP address from clients, and clients also hide their IP addresses from the service. This mutual anonymity ensures that neither party knows the physical location of the other, providing strong privacy protections.
+            </p>
+            <p>
+                Examples of Hidden Services are URLs ending with .onion (e.g., xyzabc1234[...]7890abcd.onion).
+            </p>
+        </div>
+        <div class="section">
+            <h3 class="blogs">Components Involved</h3>
+            <p>To understand working mechanism of hidden services it is crucial to understand the following terminology: </p>
+            <ul>
+                <li>
+                    <b>Client:</b> The user who wants to visit a .onion site through Tor.
+                </li>
+                <li>
+                    <b>Hidden Service (HS):</b> The server hosting the .onion site.
+                </li>
+                <li>
+                    <b>Introduction Points (IPs):</b> Regular Tor relays selected by the Hidden Service to receive connection requests from clients.
+                </li>
+                <li>
+                    <b>Hidden Service Directory (HSDir):</b> A distributed hash table (DHT) across Tor relays that stores Hidden Service descriptors.
+                </li>
+                <li>
+                    <b>Rendezvous Point (RP):</b> A Tor relay chosen by the client where the client and Hidden Service will meet and establish communication.
+                </li>
+            </ul>
+        </div>
+        <div class="section">
+            <h3 class="blogs">Step-by-Step Flow</h3>
+            <figure style="text-align: center;">
+                <img src="/assets/images/hidden_service.png" alt="Hidden Service Step-by-Step Flow Diagram" style="max-width: 100%; height: auto;">
+                <figcaption><b>Tor Hidden Services Working Mechanism</b></figcaption>
+              </figure>
+            <p>As shown above, both the client and the hidden service build circuits through Tor relays, using 
+            Introduction Points and Rendezvous Points to meet without revealing their IP addresses.</p>
+            <p>Now let's explore working mechanism of the hidden service step by step from service setup phase to establishing end-to-end encrypted communication with clients:</p>
+            <ol>
+                <li>
+                    <h4>Hidden Service Setup</h4>
+                    <p>When the hidden service starts:</p>
+                    <ul>
+                        <li>It randomly selects a few Tor relays as its Introduction Points (IPs) (typically 3).</li>
+                        <li>It establishes Tor circuits (encrypted paths) to these IPs.</li>
+                        <li>
+                            It creates a Hidden Service Descriptor, containing:
+                            <ul>
+                                <li>The service’s public key.</li>
+                                <li>A list of its Introduction Points (with encrypted authentication tokens).</li>
+                                <li>A digital signature for verification.</li>
+                            </ul>
+                        </li>
+                        <li>The descriptor is then uploaded to multiple Hidden Service Directories (HSDirs), distributed across the Tor network.</li>
+                        <li>The descriptor is indexed using a hash derived from the .onion address and the current date to ensure freshness.</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <h4>Client Initiates a Connection</h4>
+                <p>When a client wishes to connect to a Hidden Service:</p>
+                <ul>
+                    <li>
+                        The client knows only the .onion address (e.g., xyzabc1234567890.onion).
+                    </li>
+                    <li>
+                        In Tor v3 addresses, this address is derived from the service’s public key using base32 encoding.
+                    </li>
+                </ul>
+                </li>
+                
+                <li>
+                    <h4>Client Fetches the Hidden Service Descriptor</h4>
+                    <p>The client:</p>
+                    <ul>
+                        <li>
+                            Computes the descriptor ID using the service’s public key and the current time period.
+                        </li>
+                        <li>
+                            Downloads the descriptor from the appropriate Hidden Service Directories (HSDirs).
+                        </li>
+                        <li>
+                            From the descriptor, the client learns:
+                            <ul>
+                                <li>
+                                    The public key of the Hidden Service.
+                                </li>
+                                <li>
+                                    The list of Introduction Points it can use to contact the service.
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <h4>Client Sets Up a Rendezvous Point</h4>
+
+                    <ul>
+                        <li>
+                            The client selects a random Tor node to act as the Rendezvous Point (RP).
+                        </li>
+                        <li>
+                            It builds a Tor circuit to the RP and sends it a rendezvous cookie (a random secret used to match connections).
+                        </li>
+                        <li>
+                            The client keeps this circuit open, waiting for the Hidden Service to join.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h4>Client Contacts an Introduction Point</h4>
+                    <p>The client:</p>
+                    <ul>
+                        <li>
+                            Builds a Tor circuit to one of the Hidden Service’s Introduction Points.
+                        </li>
+                        <li>
+                            Sends an encrypted message (using the Hidden Service’s public key) containing:
+                            <ul>
+                                <li>
+                                    The address of the chosen Rendezvous Point.
+                                </li>
+                                <li>
+                                    The rendezvous cookie.
+                                </li>
+                                <li>
+                                    Its own temporary public key for secure session setup.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            The Introduction Point forwards this encrypted message to the Hidden Service.
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <h4>Hidden Service Connects to the Rendezvous Point</h4>
+                    <p>Upon receiving the client’s request:</p>
+                    <ul>
+                        <li>
+                            The Hidden Service builds a Tor circuit to the specified Rendezvous Point.
+                        </li>
+                        <li>
+                            It sends the same rendezvous cookie to the RP to identify the session.
+                        </li>
+                    </ul>
+                    <p>At this stage, both the client and the Hidden Service have circuits established to the same RP.</p>
+                </li>
+                <li>
+                    <h4>Communication Begins</h4>
+                    <ul>
+                        <li>
+                            The Rendezvous Point links the two circuits together using the shared rendezvous cookie.
+                        </li>
+                        <li>
+                            From now on, the client and the Hidden Service exchange data through the RP.
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+            <p>
+                End-to-end encryption ensures that even the RP cannot read the traffic or know who either party is.
+                The communication remains completely anonymous for both sides. To set up your own hidden service follow <a href="https://community.torproject.org/onion-services/setup/">this</a>.
+            </p>
+        </div>
+
+        <div class="section">
+            <h3 class="blogs">Onion Address Length</h3>
+            <p>The length of a .onion address depends on the version of the Tor Hidden Service protocol. Tor v3 is the current version and recommends:
+            <ul>
+                <li>
+                    56 characters (excluding .onion suffix)
+                </li>
+                <li>
+                    Example:
+                    <div class="code" style="margin-left: 2.5em;">
+                        <code>
+                            m5kijz63lvevrfjcf7gfwzv2e5mmpk3so3nsxukgrvubqn7i6j5s7iid.onion
+                        </code>
+                    </div>
+                </li>
+                <li>
+                    It is derived from following structure:
+                    <ul>
+                        <li>
+                            256-bit Ed25519 public key
+                        </li>
+                        <li>
+                            A checksum
+                        </li>
+                        <li>
+                            A version number
+                        </li>
+                        
+                    </ul>
+                </li>
+                <li>Then base32-encoded to form the 56-character address:
+                    <div class="code" style="margin-left: 2.5em;">
+                        <code>[base32(pubkey | checksum | version)].onion</code>
+                    </div>
+                </li>
+                <li>Provides significantly improved cryptographic security compared to earlier versions.</li>
+            </ul>
+        </div>
+
+
+        <div class="section">
+            <h3 class="blogs">Explore by yourself</h3>
+            <ul>
+                <li>Why DNS is not required in Tor ?</li>
+                <li>How vanity address is generated ?</li>
+                <li>Setup your own hidden service and tor relay node ?</li>
+                <li>Read about OpSec for running hidden services.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3 class="blogs">References</h3>
+            <ul>
+                <li><a href="https://spec.torproject.org ">Tor Specifications</a></li>
+                <li><a href="https://youtu.be/QRYzre4bf7I?feature=shared">How TOR Works - Computerphile</a></li>
+                <li><a href="https://youtu.be/lVcbq_a5N9I?feature=shared">TOR Hidden Services - Computerphile</a></li>
+                <li><a href="https://css.csail.mit.edu/6.858/2022/readings/tor-design.pdf">Tor: The Second-Generation Onion Router</a></li>
+                <li><a href="http://biblemeowimkh3utujmhm6oh2oeb3ubjw2lpgeq3lahrfr2l6ev6zgyd.onion/">DNM Bible - Operational Security Guide</a></li>
+            </ul>
+        </div>
+
+
+    
+    </div>
+
+    <footer style="text-align: center;">
+        <span>&copy; Wannabe1337</span>
+    </footer>
+</body>
+</html>

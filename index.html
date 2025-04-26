@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/index.css">
     <script src="https://kit.fontawesome.com/490315fd94.js" crossorigin="anonymous"></script>
-<title>Wannabe1337</title>
+<title>𝕎𝕒𝕟𝕟𝕒𝔹𝕖𝟙𝟛𝟛𝟟</title>
 </head>
 <body>
     <header>
-        <h1 style="margin-bottom:0%;">Wannabe1337</h1>
+        <h1 style="margin-bottom:0%;">𝕎𝕒𝕟𝕟𝕒𝔹𝕖𝟙𝟛𝟛𝟟</h1>
         <span style="color: #8a1414; margin: 0%;">Exploring more and more ....</span>
         <nav style="margin-top: 20px;">
             <a href="/index.html">Home</a> |
@@ -18,10 +18,10 @@
             <a href="/assets/posts/pioneers/index.html">Pioneers</a> |
             <a href="/aboutMe.html">About Me</a> 
         </nav>
+        <hr class="separator">
     </header>
 
     <div class="container">
-        <hr>
 
         <h2>Welcome to My Personal Website!</h2>
         <p>
@@ -43,10 +43,148 @@
 
         <p>Thank you for visiting, and I hope you find my site informative and inspiring! &#128578;</p>
     
+        <br>
+        <h2>Featured Playlists</h2>
+        <section id="playlists" style="text-align: center;">
+          
+            <div style="position: relative; max-width: 800px; margin: auto; overflow: hidden;">
+          
+              <!-- Playlist Slider -->
+              <div id="playlist-slider" style="display: flex; transition: transform 0.5s ease;">
+                
+                <!-- Playlist 1 -->
+                <div style="min-width: 100%;">
+                  <iframe width="100%" height="400"
+                    src="https://www.youtube.com/embed/videoseries?list=PLlfuFGe_Z57giFbdBI051yvZ95NGWnQuf"
+                    title="Playlist 1" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                  </iframe>
+                  
+                </div>
+          
+                <!-- Playlist 2 -->
+                <div style="min-width: 100%;">
+                  <iframe width="100%" height="400"
+                    src="https://www.youtube.com/embed/videoseries?list=PLlfuFGe_Z57hddl3DRjSSthSvjE0nkeEo"
+                    title="Playlist 2" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                  </iframe>
+                </div>
+              </div>
+
+                <a id="watch-now" href="https://www.youtube.com/playlist?list=PLlfuFGe_Z57giFbdBI051yvZ95NGWnQuf" target="_blank">🎥 Watch Full Playlist</a>
+              <!-- Navigation Buttons
+              <button onclick="prevSlide()" style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); background-color: #124e66; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 0 5px 5px 0;">&#8592;</button>
+              
+              <button onclick="nextSlide()" style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); background-color: #124e66; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 5px 0 0 5px;">&#8594;</button> -->
+          
+              <div class="navigation-buttons">
+                  <button onclick="prevSlide()">
+                  &#8592;
+                  </button>
+                  
+                  <button onclick="nextSlide()">
+                  &#8594;
+                  </button>
+              </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+          </section>
     </div>
+
 
     <footer style="text-align: center;">
         <span>&copy; Wannabe1337</span>
     </footer>
 </body>
+
+
+<script>
+    let currentIndex = 0;
+    const slider = document.getElementById('playlist-slider');
+    const totalSlides = slider.children.length;
+  
+    function showSlide(index) {
+        const offset = -index * 100;
+        slider.style.transform = `translateX(${offset}%)`;
+
+        // Get the iframe from the current slide based on the index
+        let iframe = slider.children[index].querySelector('iframe');
+        
+        // Update the 'watch-now' link with the iframe's src (the YouTube playlist link)
+        let link = document.getElementById('watch-now');
+        link.href = iframe.src;
+    }
+  
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      showSlide(currentIndex);
+    }
+  
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      showSlide(currentIndex);
+    }
+  </script>
+  
+
+
+<style>
+    /* Positioning and styling the navigation buttons outside of the iframe */
+    .navigation-buttons {
+    display: flex;
+    position: absolute;
+    top: 50%; /* Vertically centers the buttons */
+    /* bottom: 50%; */
+    /* align-items: center; */
+    transform: translateY(-50%); /* Adjusts for centering */
+    justify-content: space-between; /* Places buttons at the left and right */
+    width: 100%;
+    height: 100%; /* Match iframe height */
+  }
+
+  #watch-now {
+    position: relative;  /* Makes it positionable */
+    z-index: 10;         /* Ensures the link stays on top of other elements */
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #ff0000;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+  .navigation-buttons button {
+    display: inline-block;
+    background-color: #124e66;
+    opacity: 60%;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    height: 400px;
+  }
+
+  .navigation-buttons button:first-child {
+    border-radius: 5px 0 0 5px; /* Left button rounded on the left side */
+  }
+
+  .navigation-buttons button:last-child {
+    border-radius: 0 5px 5px 0; /* Right button rounded on the right side */
+  }
+
+  /* Hover effect for opacity */
+  .navigation-buttons button:hover {
+            opacity: 1; /* Reduce opacity when hovering */
+        }
+  </style>
+
+
 </html>

@@ -3,19 +3,21 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #d1e8e2;
+    color: #000000;
 }
 .container {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 150px auto;
+    padding: 20px;
+    /* margin-top: 80px;  Add some space below the fixed header */
     padding: 20px;
 }
-h2, h3 {
-    color: #0066cc;
+h1, h2, h3 {
+    color: #124e66;
 }
 a {
-    color: #0066cc;
+    color: #124e66;
     text-decoration: none;
 }
 a:hover {
@@ -31,7 +33,7 @@ p{
     text-align: justify;
 }
 footer{
-    background-color: #0066cc;
+    background-color: #124e66;
     position: fixed;
     width: 100%;
     bottom: 0;
@@ -39,7 +41,59 @@ footer{
 }
 header{
     text-align: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #d1e8e2;
+    /* color: white; */
+    padding: 10px 0;
+    z-index: 1000; 
 }
+hr.separator {
+    margin-top: 10px; /* Space above the line */
+    border: none; /* Remove default border */
+    border-top: 2px solid #8a1414; /* A solid red line, same as the text color */
+    width: 50%; /* Make it span the full width of the page */
+}
+
 .pioneers{
-    color: #8e1c1c;
+    color: #8a1414;
 }
+
+.blogs{
+    /* color: #000000; */
+    color: #8a1414;
+
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+  }
+  th, td {
+    border: 1px solid #9a9c9e;
+    padding: 10px;
+    text-align: center;
+  }
+  th {
+    background-color: #124e66;
+    color: #f4f4f4;
+  }
+.code {
+    margin-left: 10em;
+    width: max-content;
+    color: #124e66;
+    font-size: large;
+    font-weight:bolder;
+    /* background: #408fd0; */
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+/* pre {
+    /* background: #408fd0;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    width: max-content; */
+} */
