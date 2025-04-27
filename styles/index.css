@@ -3,7 +3,7 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #d1e8e2;
+    background-color: #ecf5bb;
     color: #000000;
 }
 .container {
@@ -45,7 +45,7 @@ header{
     width: 100%;
     top: 0;
     left: 0;
-    background-color: #d1e8e2;
+    background-color: #ecf5bb;
     /* color: white; */
     padding: 10px 0;
     z-index: 1000; 
